@@ -41,6 +41,39 @@ r2 = r2_score(y_test, model.predict(X_test))
 # Streamlit UI
 st.title("💼 Employee Salary Predictor")
 
+# What can this app do? Section
+with st.expander("🤔 What can this app do?", expanded=False):
+    st.markdown("""
+    ### 🎯 **Salary Prediction Capabilities**
+    This machine learning application can predict employee salaries based on key professional and demographic factors:
+    
+    **📊 Input Parameters:**
+    - **Age** (18-65 years): Employee's current age
+    - **Gender**: Male or Female
+    - **Education Level**: Bachelor's, Master's, or PhD
+    - **Job Title**: Various positions from the dataset
+    - **Experience**: Years of professional experience (0-40 years)
+    
+    **🤖 Machine Learning Model:**
+    - **Algorithm**: Linear Regression
+    - **Current Accuracy**: {:.2f}% (R² Score)
+    - **Training Data**: Real employee salary dataset
+    
+    **💡 What you can expect:**
+    - Get instant salary predictions in Indian Rupees (₹)
+    - Compare salaries across different roles and experience levels
+    - Understand how education and experience impact compensation
+    - Make informed career and hiring decisions
+    
+    **🎯 Perfect for:**
+    - Job seekers evaluating salary expectations
+    - HR professionals benchmarking compensation
+    - Career planning and progression analysis
+    - Salary negotiation preparation
+    """.format(r2 * 100))
+
+st.markdown("---")
+
 age = st.slider("Select Age", 18, 65, 25)
 gender = st.selectbox("Select Gender", ["Male", "Female"])
 degree = st.selectbox("Select Degree", ["Bachelor's", "Master's", "PhD"])
@@ -67,3 +100,26 @@ if st.button("Predict Salary"):
     st.success(f"💰 Predicted Salary: ₹{predicted_salary:,.2f}")
 
 st.caption(f"Model Accuracy (R² Score): {r2 * 100:.2f}%")
+
+# Additional Information Section
+st.markdown("---")
+with st.expander("📈 Model Performance & Dataset Info", expanded=False):
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("""
+        **🎯 Model Statistics:**
+        - **Algorithm**: Linear Regression
+        - **R² Score**: {:.2f}%
+        - **Features Used**: 5 key parameters
+        - **Data Processing**: Standardized & Encoded
+        """.format(r2 * 100))
+    
+    with col2:
+        st.markdown("""
+        **📊 Dataset Overview:**
+        - **Total Records**: {} employees
+        - **Job Titles**: {} unique positions
+        - **Salary Range**: ₹{:,.0f} - ₹{:,.0f}
+        - **Data Quality**: Clean, preprocessed data
+        """.format(len(df), df['Job_Title'].nunique(), df['Salary'].min(), df['Salary'].max()))
